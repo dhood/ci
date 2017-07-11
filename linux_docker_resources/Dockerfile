@@ -42,7 +42,8 @@ RUN pip3 install -U setuptools pip virtualenv
 RUN apt-get update && apt-get install --no-install-recommends -y gcovr
 
 # Install the OpenSplice binary from the OSRF repositories.
-RUN if test ${PLATFORM} = x86; then apt-get update && apt-get install --no-install-recommends -y libopensplice64; fi
+# RUN if test ${PLATFORM} = x86; then apt-get update && apt-get install --no-install-recommends -y libopensplice64; fi
+RUN if test ${PLATFORM} = x86; then curl --silent https://build.osrfoundation.org/job/opensplice-debbuilder_no_upload/12/artifact/pkgs/libopensplice64_6.4.0+osrf1-0~xenial_amd64.deb && dpkg -i libopensplice64_6.4.0+osrf1-0~xenial_amd64.deb; fi
 # Update default domain id.
 RUN if test ${PLATFORM} = x86; then sed -i "s/<Id>0<\/Id>/<Id>108<\/Id>/" /usr/etc/opensplice/config/ospl.xml; fi
 
